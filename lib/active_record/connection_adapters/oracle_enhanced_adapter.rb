@@ -652,6 +652,12 @@ module ActiveRecord
         name)
       end
 
+      def views #:nodec:
+        select_values(
+        "select lower(view_name) name from all_views where owner = sys_context('userenv','session_user')"
+        )
+      end
+
       # Will return true if database object exists (to be able to use also views and synonyms for ActiveRecord models)
       def table_exists?(table_name)
         (owner, table_name, db_link) = @connection.describe(table_name)
